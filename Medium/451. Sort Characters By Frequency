@@ -1,0 +1,46 @@
+class freqLinkList
+{
+    public:
+    int Count, Character;
+    freqLinkList* next;
+    freqLinkList(int x, int y) : Count(x), Character(y), next(NULL) {}
+};
+class Solution {
+public:
+    string frequencySort(string s) {
+        int i, j, Character[128] = {0};
+        freqLinkList *root = new freqLinkList(0, 0), *current, *parent;
+        for (i = 0; i < s.size(); ++i)
+            Character[s[i]]++;
+        for (i = 0; i < 128; ++i)
+        {
+            if (Character[i] != 0)
+            {
+                current = root->next;
+                parent = root;
+                while (current)
+                {
+                    if (Character[i] > current->Count)
+                    {
+                        parent->next = new freqLinkList(Character[i], i);
+                        parent->next->next = current;
+                        break;
+                    }
+                    parent = current;
+                    current = current->next;
+                }
+                if (current == NULL)
+                    parent->next = new freqLinkList(Character[i], i);
+            }
+        }
+        current = root->next;
+        i = 0;
+        while (current)
+        {
+            for (j = 0; j < current->Count; ++j, ++i)
+                s[i] = (char)(current->Character);
+            current = current->next;
+        }
+        return s;
+    }
+};

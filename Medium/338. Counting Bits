@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> countBits(int num){
+        int i, Count = 2, index = 1;
+        vector<int> Answer;
+        Answer.push_back(0);
+        if (num == 0)
+            return Answer;
+        Answer.push_back(1);
+        if (num == 1)
+            return Answer;
+        for (i = 2; i <= num; ++i)
+        {
+            if (i == Count)
+            {
+                Answer.push_back(1);
+                index = 1;
+                Count <<= 1;
+            }
+            else
+                Answer.push_back(1 + Answer[index++]);
+        }
+        return Answer;
+    }
+};

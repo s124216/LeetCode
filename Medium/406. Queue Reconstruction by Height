@@ -1,0 +1,25 @@
+bool compare(pair<int, int> a, pair<int, int> b)
+{
+	return a.first>b.first || (a.first==b.first && a.second < b.second);
+}
+
+class Solution {
+public:
+    vector<pair<int, int>> reconstructQueue(vector<pair<int, int>>& people) {
+        vector<pair<int, int>> result;
+        int i;
+        pair<int, int> temp;
+        sort(people.begin(), people.end(), compare);
+        for (i = 0; i < people.size(); i++)
+        {
+            if (people[i].second != i)
+            {
+                temp.first = people[i].first;
+                temp.second = people[i].second;
+                people.erase(people.begin() + i);
+                people.insert(people.begin() + temp.second, temp);
+            }
+        }
+        return people;
+    }
+};

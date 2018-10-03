@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int countSubstrings(string s) {
+        int i, j, result = s.size();
+        for (i = 1; i < s.size(); ++i)
+        {
+            if (s[i - 1] == s[i])   // aa
+                result += traceEven(s, i - 1, i);
+            if (s[i - 1] == s[i + 1])   // aba
+                result += traceOdd(s, i);
+        }
+        return result;
+    }
+    
+    int traceEven(string& s, int start, int end)
+    {
+        int i = 1, Count = 1;
+        while (start - i >= 0 && end + i < s.size())
+        {
+            if (s[start - i] == s[end + i])
+                Count++;
+            else
+                break;
+            ++i;
+        }
+        return Count;
+    }
+    
+    int traceOdd(string& s, int Mid)
+    {
+        int i = 2, Count = 1;
+        while (Mid - i >= 0 && Mid + i < s.size())
+        {
+            if (s[Mid - i] == s[Mid + i])
+                Count++;
+            else
+                break;
+            ++i;
+        }
+        return Count;
+    }
+};

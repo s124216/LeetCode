@@ -1,0 +1,26 @@
+class Solution {
+public:
+    
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<vector<int>> answer;
+        vector<int> path({0});
+        DFS(graph, 0, graph.size() - 1, path, answer);
+        return answer;
+    }
+    
+    void DFS(const vector<vector<int>>& graph, const int& currentNode, const int& DestNode, vector<int>& path, vector<vector<int>>& answer)
+    {
+        int i;
+        if (currentNode == DestNode)
+        {
+            answer.push_back(path);
+            return;
+        }
+        for (i = 0; i < graph[currentNode].size(); i++)
+        {
+            path.push_back(graph[currentNode][i]);
+            DFS(graph, graph[currentNode][i], DestNode, path, answer);
+            path.pop_back();
+        }
+    }
+};

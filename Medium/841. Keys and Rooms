@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        bool *flag;
+        vector<int> keys;
+        int i, j, index, Count = 1;
+        flag = new bool[rooms.size()];
+        flag[0] = true;
+        for (i = 1; i < rooms.size(); ++i)
+            flag[i] = false;
+        for (i = 0; i < rooms[0].size(); ++i)
+        {
+            keys.push_back(rooms[0][i]);
+            if (!flag[rooms[0][i]])
+            {
+                flag[rooms[0][i]] = true;
+                Count++;
+                keys.push_back(rooms[0][i]);
+            }
+        }
+        while (keys.size() != 0 && Count != rooms.size())
+        {
+            index = keys.back();
+            keys.pop_back();
+            for (i = 0; i < rooms[index].size(); ++i)
+            {
+                if (!flag[rooms[index][i]])
+                {
+                    flag[rooms[index][i]] = true;
+                    Count++;
+                    keys.push_back(rooms[index][i]);
+                }
+            }
+        }
+        if (Count == rooms.size())
+            return true;
+        else
+            return false;
+    }
+};

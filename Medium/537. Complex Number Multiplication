@@ -1,0 +1,28 @@
+class Solution {
+public:
+    string complexNumberMultiply(string a, string b)
+    {
+        string temp = "";
+        int Real_a, Complex_a, Real_b, Complex_b, Real_ans, Complex_ans;
+        FindCharacterPlus(a, &Real_a, &Complex_a);
+        FindCharacterPlus(b, &Real_b, &Complex_b);
+        Real_ans = Real_a * Real_b - Complex_a * Complex_b;
+        Complex_ans = Real_a * Complex_b + Real_b * Complex_a;
+        temp = to_string(Real_ans) + "+" + to_string(Complex_ans) + "i";
+        return temp;
+    }
+    void FindCharacterPlus(string str, int* real, int* complex)
+    {
+        string temp;
+        int i;
+        for (i = 0; i < str.size(); ++i)
+        {
+            if (str[i] == '+')
+                break;
+        }
+        temp.assign(str, 0, i);
+        *real = stoi(temp);
+        temp.assign(str, i + 1, str.size() - i - 2);
+        *complex = stoi(temp);
+    }
+};

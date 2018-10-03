@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> largestValues(TreeNode* root) {
+        vector<int> Answer;
+        DFS(root, 0, Answer);
+        return Answer;
+    }
+    
+    void DFS(TreeNode* root, int currentRow, vector<int>& Answer)
+    {
+        if (root == NULL)
+            return;
+        if (currentRow >= Answer.size())
+            Answer.push_back(root->val);
+        else
+        {
+            if (Answer[currentRow] < root->val)
+                Answer[currentRow] = root->val;
+        }
+        if (root->left != NULL)
+            DFS(root->left, currentRow + 1, Answer);
+        if (root->right != NULL)
+            DFS(root->right, currentRow + 1, Answer);
+    }
+};

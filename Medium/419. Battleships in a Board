@@ -1,0 +1,82 @@
+class Solution {
+public:
+    int countBattleships(vector<vector<char>>& board)
+    {
+        int Count = 0;
+        FindBattleships(board, 0, board.size() - 1, 0, board[0].size() -1, Count);
+        return Count;
+    }
+    void FindBattleships(vector<vector<char>>& board, int top, int bottom, int left, int right, int& Count)
+    {
+        int i, j, k;
+        bool bflag = false;
+        for (i = top; i <= bottom; i++)
+        {
+            for (j = left; j <= right; j++)
+            {
+                if (board[i][j] == 'X')
+                {
+                    Count++;
+                    if (i != bottom)
+                    {
+                        if (board[i + 1][j] == 'X')
+                        {
+                            bflag = true;
+                            if (i > 0)
+                            {
+                                if (board[i - 1][j] == 'X')
+                                {
+                                    Count--;
+                                    bflag = false;
+                                }
+                            }
+                            if (bflag)
+                            {
+                                for (k = i+2; k <= bottom; k++)
+                                {
+                                    if (board[k][j] != 'X')
+                                        break;
+                                }
+                                FindBattleships(board, i + 1, k - 1, left, j - 2, Count);
+                                FindBattleships(board, i, k - 1, j + 2, right, Count);
+                                FindBattleships(board, k, bottom, left, right, Count);
+                                return;
+                            }
+                        }
+                        else if (i > 0)
+                        {
+                            if (board[i - 1][j] == 'X')
+                            {
+                                Count--;
+                                bflag = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (i > 0)
+                        {
+                            if (board[i - 1][j] == 'X')
+                            {
+                                Count--;
+                                bflag = false;
+                            }
+                        }
+                    }
+                    if (j != right && !bflag)
+                    {
+                        if (board[i][j + 1] == 'X')
+                        {
+                            //bflag = true;
+                            for (j = j + 2; j <= right; j++)
+                            {
+                                if (board[i][j] != 'X')
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+};

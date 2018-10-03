@@ -1,0 +1,85 @@
+class Solution {
+public:
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        vector<string> answer;
+        string patternTable, wordsTable;
+        int i, j, k, patternDigit[26];
+        bool bflag;
+        char CurrentChar;
+        for (i = 0; i < 26; i++)
+            patternDigit[i] = 32;
+        patternTable = CurrentChar = pattern[0];
+        patternDigit[0] = 0;
+        for (i = 1, j = 0; i < pattern.size(); i++)
+        {
+            if(pattern[i] == CurrentChar)
+                patternDigit[i] = j;
+            else
+            {
+                CurrentChar = pattern[i];
+                bflag = false;
+                for(k = 0; k < patternTable.size(); k++)
+                {
+                    if(CurrentChar == patternTable[k])
+                    {
+                        patternDigit[i] = j = k;
+                        bflag = true;
+                        break;
+                    }
+                }
+                if(!bflag)
+                {
+                    patternDigit[i] = j = patternTable.size();
+                    patternTable = patternTable + CurrentChar;
+                }
+            }
+        }
+        for (k = 0; k < words.size(); k++)
+        {
+            wordsTable = words[k][0];
+            bflag = true;
+            for (i = 1, j = 0; i < pattern.size(); i++)
+            {
+                if(words[k][i] != wordsTable[j])
+                {
+                    if (wordsTable.size() == patternDigit[i])
+                    {
+                        if (wordsTable.find(words[k][i]) != std::string::npos)
+                        {
+                            bflag = false;
+                            break;
+                        }
+                        else
+                            wordsTable = wordsTable + words[k][i];
+                    }
+                    else    // 不正確
+                    {
+                        bflag = false;
+                        for (j = 0; j < wordsTable.size(); j++)
+                        {
+                            if (words[k][i] == wordsTable[j])
+                            {
+                                bflag = true;
+                                break;
+                            }
+                        }
+                        if (!bflag || j != patternDigit[i])
+                        {
+                            bflag = false;
+                            break;
+                        }
+                    }
+                    j = patternDigit[i];
+                }
+                else if(words[k][i] != wordsTable[patternDigit[i]])
+                {
+                    bflag = false;
+                    break;
+                }
+            }
+            if (bflag && wordsTable.size() == patternTable.size())
+                answer.push_back(words[k]);
+        }
+        return answer;
+    }
+};

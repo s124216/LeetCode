@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<int> partitionLabels(string S) {
+        int Character[26];
+        vector<int> answer;
+        int i, length = S.size(), Left = 0, MaxIndex = 0;
+        for (i = 0; i < 26; i++)
+            Character[i] = -1;
+        for (i = 0; i < length; i++)
+        {
+            if (Character[S[i] - 'a'] < i)
+                Character[S[i] - 'a'] = i;
+        }
+        MaxIndex = MaxIndex > Character[S[0] - 'a'] ? MaxIndex : Character[S[0] - 'a'];
+        for (i = 0; i < length; i++)
+        {
+            if (i == MaxIndex)
+            {
+                answer.push_back(i - Left + 1);
+                Left = i + 1;
+                if (Left < length)
+                    MaxIndex = MaxIndex > Character[S[Left] - 'a'] ? MaxIndex : Character[S[Left] - 'a'];
+            }
+            else
+                MaxIndex = MaxIndex > Character[S[i] - 'a'] ? MaxIndex : Character[S[i] - 'a'];
+        }
+        if (Left + 1 == length)
+            answer.push_back(1);
+        return answer;
+    }
+};

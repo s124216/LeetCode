@@ -1,0 +1,34 @@
+int maxIncreaseKeepingSkyline(int** grid, int gridRowSize, int *gridColSizes) {
+    int Answer = 0, i, j;
+    int *skyline_top, *skyline_left;
+    skyline_top = malloc(sizeof(int) * gridRowSize);
+    skyline_left = malloc(sizeof(int) * gridRowSize);
+    for (i = 0; i < gridRowSize; i++)
+        skyline_top[i] = skyline_left[i] = 0;
+    for (i = 0; i < gridRowSize; i++)
+    {
+        for( j = 0; j < gridRowSize; j++)
+        {
+            if(grid[i][j] > skyline_top[i])
+                skyline_top[i] = grid[i][j];
+            if(grid[i][j] > skyline_left[j])
+                skyline_left[j] = grid[i][j];
+        }
+    }
+    for( i = 0; i < gridRowSize; i++)
+    {
+        for( j = 0; j < gridRowSize; j++)
+        {
+            if(skyline_top[i] < skyline_left[j])
+                Answer += skyline_top[i] - grid[i][j];
+            else
+                Answer += skyline_left[j] - grid[i][j];
+        }
+    }
+    return Answer;
+}
+
+///*
+Note
+主要是左右跟上下的MAX數值不能變
+//*/

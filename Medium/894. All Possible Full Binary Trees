@@ -1,0 +1,38 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> allPossibleFBT(int N)
+    {
+        vector<TreeNode*> Answer;
+        if (N == 1)
+        {
+            TreeNode* root = new TreeNode(0);
+            Answer.push_back(root);
+            return Answer;
+        }
+        for (int i = 1; i <= N - 2; i += 2)
+        {
+            vector<TreeNode*> l = allPossibleFBT(i);
+            vector<TreeNode*> r = allPossibleFBT(N - 1 - i);    // 除了 parent 剩下就是 (N-1) 然後再減掉 i 個左子樹
+            for (int j = 0; j < l.size(); ++j)
+            {
+                for (int k = 0; k < r.size(); ++k)
+                {
+                    TreeNode* root = new TreeNode(0);
+                    root -> left = l[j];
+                    root -> right = r[k];
+                    Answer.push_back(root);
+                }
+            }
+        }     
+        return Answer;
+    }
+};

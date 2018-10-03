@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int matrixScore(vector<vector<int>>& A) {
+        int i, j, Count, Answer = 0;
+        int RowLength = A.size(), ColLength = A[0].size();
+        for (i = 0; i < RowLength; i++)
+        {
+            if (!A[i][0])   // A[i][0] == 0
+            {
+                for (j = 0; j < ColLength; j++)
+                    A[i][j] ^= 1;   // XOR
+            }
+        }
+        for (i = 0; i < ColLength; i++)
+        {
+            for (j = Count = 0; j < RowLength; j++)
+            {
+                if (A[j][i])
+                    Count++;
+                if ((Count << 1) > RowLength)
+                    break;
+            }
+            if ((Count << 1) < RowLength)
+            {
+                for (j = 0; j < RowLength; j++)
+                {
+                    Answer += (!A[j][i]) << (ColLength - i - 1);
+                    A[j][i] ^= 1;
+                }
+            }
+            else
+            {
+                for (j = 0; j < RowLength; j++)
+                    Answer += A[j][i] << (ColLength - i - 1);
+            }
+        }
+        return Answer;
+    }
+};

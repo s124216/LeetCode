@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<vector<int>> spiralMatrixIII(int R, int C, int r0, int c0)
+    {
+        vector<vector<int>> Answer;
+        int shift = 1, Size = R * C;
+        vector<int> location = {r0, c0};
+        Answer.push_back(location);
+        while (Answer.size() < Size)
+        {
+            trace(R-1, C-1, location[0], location[1], shift, Answer); // 傳 R-1 & C - 1
+            shift += 2;
+        }
+        return Answer;
+    }
+    
+    void trace(int Row, int Col, int& CurrentRow, int& CurrentCol, int shift, vector<vector<int>>& Answer)
+    {
+        int i;
+        vector<int> location = {0, 0};
+        EstimateLocation(Row, Col, CurrentRow, ++CurrentCol, location, Answer);   // 往右一格
+        for (i = 0; i < shift; i++) // 往下到底
+            EstimateLocation(Row, Col, ++CurrentRow, CurrentCol, location, Answer);
+        for (i = 0; i <= shift; i++) // 往左到底
+            EstimateLocation(Row, Col, CurrentRow, --CurrentCol, location, Answer);
+        for (i = 0; i <= shift; i++) // 往上到底
+            EstimateLocation(Row, Col, --CurrentRow, CurrentCol, location, Answer);
+        for (i = 0; i <= shift; i++) // 往右到底
+            EstimateLocation(Row, Col, CurrentRow, ++CurrentCol, location, Answer);
+    }
+    void EstimateLocation(int Row, int Col, int CurrentRow, int CurrentCol, vector<int>& location, vector<vector<int>>& Answer)
+    {
+        if (CurrentRow >= 0 && CurrentRow <= Row && CurrentCol >= 0 && CurrentCol <= Col)
+        {
+            location[0] = CurrentRow;
+            location[1] = CurrentCol;
+            Answer.push_back(location);
+        }
+    }
+};
