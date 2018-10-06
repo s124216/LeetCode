@@ -1,0 +1,73 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class FreqCount
+{
+    public:
+    int Total, Count;
+    FreqCount* next;
+    FreqCount(int x): Total(x), Count(1), next(NULL){}
+};
+class Solution {
+public:
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        int Total, MaxCount = 0;
+        vector<int> result;
+        FreqCount *CountTree = new FreqCount(0), *temp;
+        if (root == NULL)
+            return result;
+        CountTree->Count = 0;
+        Total = DFS(root, CountTree);
+        temp = CountTree;
+        while (temp)
+        {
+            if (MaxCount < temp->Count)
+                MaxCount = temp->Count;
+            temp = temp->next;
+        }
+        temp = CountTree;
+        while (temp)
+        {
+            if (temp->Count == MaxCount)
+                result.push_back(temp->Total);
+            temp = temp->next;
+        }
+        return result;
+    }
+    
+    int DFS(TreeNode* CurrentNode, FreqCount* CountTree)
+    {
+        int Total = 0;
+        if (CurrentNode != NULL)
+        {
+            Total = CurrentNode->val + DFS(CurrentNode->left, CountTree) + DFS(CurrentNode->right, CountTree);
+            while (CountTree)
+            {
+                if (CountTree->Total == Total)
+                    if (CountTree->Count > 0)
+                    {
+                        CountTree->Count++;
+                        break;
+                    }
+                if (CountTree->next == NULL)
+                {
+                    CountTree->next = new FreqCount(Total);
+                    break;
+                }
+                CountTree = CountTree->next;
+            }
+        }
+        return Total;
+    }
+};
+/*
+Note
+
+用 unordered_map<> 會更快
+*/

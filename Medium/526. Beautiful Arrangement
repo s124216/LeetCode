@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int countArrangement(int N) {
+        int i, j, *sequence, Count = 1;
+        sequence = new int[N + 1];
+        for (i = 0; i <= N ; ++i)
+            sequence[i] = i;
+        for (i = 1; i <= N ; ++i)
+        {
+            for (j = i; j < N; ++j)
+            {
+                
+                if ((j % sequence[j + 1] == 0 || sequence[j + 1] % j == 0)
+                   &&((j + 1) % sequence[j] == 0 || sequence[j] % (j + 1) == 0))
+                {
+                    swap(sequence, j);
+                    Count++;
+                }
+            }
+        }
+        return Count;
+    }
+    
+    void swap(int* sequence, int current)
+    {
+        int temp = sequence[current];
+        sequence[current] = sequence[current + 1];
+        sequence[current + 1] = temp;
+    }
+};
