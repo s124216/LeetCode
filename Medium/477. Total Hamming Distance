@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int totalHammingDistance(vector<int>& nums) {
+        int i, j, temp, Count1 = 0, Size = nums.size(), result = 0;
+        bool bflag;
+        while (true)
+        {
+            bflag = true;
+            for (i = Count1 = 0; i < Size; ++i)
+            {
+                if (nums[i])
+                {
+                    if (bflag)
+                        bflag = false;
+                    temp = nums[i];
+                    nums[i] >>= 1;
+                    if (temp != nums[i] << 1)
+                        Count1++;
+                }
+            }
+            if (bflag)
+                break;
+            result += (Size - Count1) * Count1;
+        }
+        return result;
+    }
+};

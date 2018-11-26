@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int mirrorReflection(int p, int q) {
+        int y = 0;
+        bool left = true, up = true;
+        while (true)
+        {
+            y = (y + q);
+            left = !left;
+            if (y > p)
+            {
+                y = y % p;
+                up = !up;
+            }
+            else if (y == p)
+            {
+                if (!left)
+                {
+                    if (up)
+                        return 1;
+                    else
+                        return 0;
+                }
+                else
+                {
+                    if (up)
+                        return 2;
+                }
+                y = y % p;
+            }
+        }
+    }
+};

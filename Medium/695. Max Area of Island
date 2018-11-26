@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        int i, j, Area, result = 0, rowSize = grid.size(), colSize = grid[0].size();
+		for (i = 0; i < rowSize; ++i)
+		{
+			for (j = 0; j < colSize; ++j)
+			{
+				if (grid[i][j])
+				{
+					Area = trace(grid, rowSize, colSize, i, j);
+					if (result < Area)
+						result = Area;
+				}
+			}
+		}
+		return result;
+    }
+	
+	int trace(vector<vector<int>>& grid, int rowSize, int colSize, int row, int col)
+	{
+		if (row >= 0 && row < rowSize && col >= 0 && col < colSize)
+		{
+			if (grid[row][col])
+			{
+				grid[row][col] = 0;
+				return 1
+					+ trace(grid, rowSize, colSize, row - 1, col)
+					+ trace(grid, rowSize, colSize, row + 1, col)
+					+ trace(grid, rowSize, colSize, row, col - 1)
+					+ trace(grid, rowSize, colSize, row, col + 1);
+			}
+		}
+		return 0;
+	}
+};

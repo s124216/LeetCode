@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int findMinDifference(vector<string>& timePoints) {
+        int i, timeDiff, result = 1440;
+        sort(timePoints.begin(), timePoints.end());
+        for (i = 1; i < timePoints.size(); ++i)
+        {
+            timeDiff = calculate(timePoints[i - 1], timePoints[i]);
+            if (result > timeDiff)
+                result = timeDiff;
+        }
+        timeDiff = calculate(timePoints[0], timePoints[timePoints.size() - 1]);
+        if (result > timeDiff)
+            result = timeDiff;
+        return result;
+    }
+    
+    int calculate(string a, string b)
+    {
+        int min1, min2, result = 0;
+        min1 = (a[0] - '0') * 600 + (a[1] - '0') * 60 + (a[3] - '0') * 10 + a[4] - '0';
+        min2 = (b[0] - '0') * 600 + (b[1] - '0') * 60 + (b[3] - '0') * 10 + b[4] - '0';
+        if (min2 - min1 <= 720)
+            return min2 - min1;
+        else
+            return min1 - min2 + 1440;
+    }
+};

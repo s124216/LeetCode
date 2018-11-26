@@ -1,0 +1,60 @@
+class MapSum {
+public:
+    /** Initialize your data structure here. */
+    vector<pair<string, int>> data;
+    MapSum() {
+        data.clear();
+    }
+    
+    void insert(string key, int val) {
+        int i;
+        pair<string, int> input;
+        bool bExist = false;
+        for (i = 0; i < data.size(); ++i)
+        {
+            if(key == data[i].first)
+            {
+                data[i].second = val;
+                bExist = true;
+                break;
+            }
+        }
+        if (!bExist)
+        {
+            input.first = key;
+            input.second = val;
+            data.push_back(input);
+        }
+    }
+    
+    int sum(string prefix) {
+        int i, j, prefix_size, data_size, result = 0;
+        bool bflag;
+        prefix_size = prefix.size();
+        for (i = 0; i < data.size(); ++i)
+        {
+            data_size = data[i].first.size();
+            if (data_size >= prefix_size)
+            {
+                for (j = 0, bflag = true; j < prefix_size; ++j)
+                {
+                    if (data[i].first[j] != prefix[j])
+                    {
+                        bflag = false;
+                        break;
+                    }
+                }
+                if (bflag)
+                    result += data[i].second;
+            }
+        }
+        return result;
+    }
+};
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum obj = new MapSum();
+ * obj.insert(key,val);
+ * int param_2 = obj.sum(prefix);
+ */

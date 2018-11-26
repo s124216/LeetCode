@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int leastBricks(vector<vector<int>>& wall) {
+		int i, j, result = wall.size(), max = 0, current, bricks = wall.size(), temp;
+        pair<int, int> *index = new pair<int, int>[wall.size()];
+		for (i = 0; i < wall.size(); ++i)
+			index[i].first = index[i].second = 0;
+		for (i = 0; i < wall[0].size(); ++i)
+			max += wall[0][i];
+		for (i = 1; i < max;)
+		{
+			temp = index[0].second + wall[0][index[0].first];
+			for (j = current = 0; j < wall.size(); ++j)
+			{
+				if (index[j].first < wall[j].size())
+				{
+					if (temp > index[j].second + wall[j][index[j].first])
+						temp = index[j].second + wall[j][index[j].first];
+					if (index[j].second < i)
+					{
+						index[j].second += wall[j][index[j].first];
+						++index[j].first;
+					}
+					if (index[j].second == i)
+						++current;
+				}
+			}
+			i = temp;
+			if (result > bricks - current)
+				result = bricks - current;
+		}
+		return result;
+    }
+};

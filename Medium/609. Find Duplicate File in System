@@ -1,0 +1,49 @@
+class Solution {
+public:
+    vector<vector<string>> findDuplicate(vector<string>& paths) {
+        unordered_map<string, vector<string>> files;
+        int i, j, k, currentIndex;
+        bool exist;
+        string dirIndex, fileName, content;
+        vector<vector<string>> result;
+        for (i = 0; i < paths.size(); ++i)
+        {
+            j = 0;
+            while(1)
+            {
+                if (paths[i][j] == ' ')
+                    break;
+                ++j;
+            }
+            dirIndex = dirIndex.assign(paths[i], 0, j) + '/';
+            currentIndex = j;
+            while(paths[i][currentIndex] != NULL)
+            {
+                currentIndex = ++j;
+                while(1)
+                {
+                    if (paths[i][j] == '(')
+                        break;
+                    ++j;
+                }
+                fileName = fileName.assign(paths[i], currentIndex, j - currentIndex);
+                currentIndex = ++j;
+                while(1)
+                {
+                    if (paths[i][j] == ')')
+                        break;
+                    ++j;
+                }
+                content = content.assign(paths[i], currentIndex, j - currentIndex);
+                files[content].push_back(dirIndex + fileName);
+                currentIndex = ++j;
+            }
+        }
+        for (auto file : files)
+        {
+            if (file.second.size() > 1)
+                result.push_back(file.second);
+        }
+        return result;
+    }
+};

@@ -1,0 +1,51 @@
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& A) {
+        return Evalutation(A);
+    }
+	
+	int Evalutation(vector<vector<int>>& A)
+	{
+		int i, j, k, min = 0, Size = A.size(), *cache, *oldcache, *newcache, *temp;
+		bool post = true;
+		cache = new int[Size << 1];
+		oldcache = cache;
+		if (Size != 1)
+			newcache = cache + Size;
+		else
+			newcache = cache;
+		for (i = 0; i < Size; ++i)
+			cache[i] = A[Size - 1][i];
+		for (i = Size - 2; i >= 0; --i)
+		{
+			for (j = 0; j < Size; ++j)
+			{
+				min = 10000;
+				for (k = -1; k <= 1; ++k)
+				{
+					if (j + k >= 0 && j + k < Size && min > *(oldcache + j + k))
+						min = *(oldcache + j + k);
+				}
+				*(newcache + j) = A[i][j] + min;
+			}
+			if (post)
+			{
+				oldcache = cache + Size;
+				newcache = cache;
+			}
+			else
+			{
+				oldcache = cache;
+				newcache = cache + Size;
+			}
+			post = !post;
+		}
+		min = *oldcache;
+		for (i = 1; i < Size; ++i)
+		{
+			if (min > *(oldcache + i))
+				min = *(oldcache + i);
+		}
+		return min;
+	}
+};

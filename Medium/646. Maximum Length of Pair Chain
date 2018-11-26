@@ -1,0 +1,26 @@
+int compare(vector<int>& a, vector<int>& b)
+{
+	if (a[1] != b[1])
+		return a[1] < b[1];
+	else
+		return a[0] < b[0];
+}
+
+class Solution {
+public:
+    int findLongestChain(vector<vector<int>>& pairs) {
+        int i = 1, number, result = 0;
+		sort(pairs.begin(), pairs.end(), compare);
+		number = pairs[0][1];
+		++result;
+		for (i = 1; i < pairs.size(); ++i)
+		{
+			if (pairs[i][0] > number)
+			{
+				number = pairs[i][1];
+				++result;
+			}
+		}
+		return result;
+    }
+};

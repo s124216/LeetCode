@@ -1,0 +1,88 @@
+class Solution {
+public:
+    string intToRoman(int num) {
+        int temp;
+        string result;
+        while (num > 0)
+        {
+            if (num >= 1000) // M
+            {
+                result += 'M';
+                num -= 1000;
+                PlusLoop('M', 1000, num, result);
+            }
+            else if (num >= 900)
+            {
+                result += "CM";
+                num -= 900;
+            }
+            else if (num >= 500)
+            {
+                result += 'D';
+                num -= 500;
+                PlusLoop('C', 100, num, result);
+            }
+            else if (num >= 400)
+            {
+                result += "CD";
+                num -= 400;
+            }
+            else if (num >= 100)
+            {
+                result += 'C';
+                num -= 100;
+                PlusLoop('C', 100, num, result);
+            }
+            else if (num >= 90)
+            {
+                result += "XC";
+                num -= 90;
+            }
+            else if (num >= 50)
+            {
+                result += 'L';
+                num -= 50;
+                PlusLoop('X', 10, num, result);
+            }
+            else if (num >= 40)
+            {
+                result += "XL";
+                num -= 40;
+            }
+            else if (num >= 10)
+            {
+                result += 'X';
+                num -= 10;
+                PlusLoop('X', 10, num, result);
+            }
+            else if (num >= 9)
+            {
+                result += "IX";
+                num -= 9;
+            }
+            else if (num >= 5)
+            {
+                result += 'V';
+                num -= 5;
+                PlusLoop('I', 1, num, result);
+            }
+            else if (num >= 4)
+            {
+                result += "IV";
+                num -= 4;
+            }
+            else if (num >= 1)
+                PlusLoop('I', 1, num, result);
+        }
+        return result;
+    }
+    
+    void PlusLoop(char character, int Size, int& num, string& result)
+    {
+        while (num >= Size)
+        {
+            num -= Size;
+            result += character;
+        }
+    }
+};

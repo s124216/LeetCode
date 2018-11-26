@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> result;
+        if (nums.size() == 1)
+            result.push_back(nums);
+        else
+            DP(nums, 0, result);
+        return result;
+    }
+    
+    void DP(vector<int>& nums, int index, vector<vector<int>>& result)
+    {
+        int i;
+        if (index + 2 == nums.size())
+        {
+            i = index + 1;
+            swap(nums[index], nums[i]);
+            result.push_back(nums);
+            swap(nums[index], nums[i]);
+            result.push_back(nums);
+        }
+        else
+        {
+            for (i = index; i < nums.size(); ++i)
+            {
+                swap(nums[index], nums[i]);
+                DP(nums, index + 1, result);
+                swap(nums[index], nums[i]);
+            }
+        }
+    }
+};

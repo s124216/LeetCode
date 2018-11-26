@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int minAddToMakeValid(string S) {
+        int i, result = 0, Count = 0;
+        for (i = S.size() - 1; i >= 0; --i)
+        {
+            if (S[i] == ')')
+                Count++;
+            else
+            {
+                if (Count > 0)
+                    Count--;
+                else
+                    result++;
+            }
+        }
+        result += Count;
+        return result;
+    }
+};

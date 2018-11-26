@@ -1,0 +1,40 @@
+class Solution {
+public:
+    string replaceWords(vector<string>& dict, string sentence) {
+        int i, shift;
+        for (i = 0; i < sentence.size(); ++i)
+        {
+            shift = replaceString(sentence, i, dict);
+            if (shift == 0)
+            {
+                for (; i < sentence.size(); ++i)
+                {
+                    if (sentence[i] == ' ')
+                        break;
+                }
+            }
+            else
+                i += shift;
+        }
+        return sentence;
+    }
+    
+    int replaceString(string& sentence, int index, vector<string>& dict)
+    {
+        int i, j;
+        for (i = 0; i < dict.size(); i++)
+        {
+            if (sentence.compare(index, dict[i].size(), dict[i]) == 0)
+            {
+                for (j = index + dict[i].size() - 1; j < sentence.size(); ++j)
+                {
+                    if (sentence[j] == ' ')
+                        break;
+                }
+                sentence.replace(index, j - index, dict[i]);
+                return dict[i].size();
+            }
+        }
+        return 0;
+    }
+};

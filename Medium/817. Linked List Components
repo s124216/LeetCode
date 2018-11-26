@@ -1,0 +1,56 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/*int compare (const void * a, const void * b)
+    {return ( *(int*)a - *(int*)b );}//*/
+
+bool compare(int a,int b)
+{
+    return a<b;
+}
+
+class Solution {
+public:
+    
+    int numComponents(ListNode* head, vector<int>& G) {
+        int result = 0, start = 0;
+        sort(G.begin(), G.end(), compare);
+        while(head)
+        {
+            if (binarySearch(G, head->val))
+                ++start;
+            else
+            {
+                if (start > 0)
+                {
+                    start = 0;
+                    ++result;
+                }
+            }
+            head = head->next;
+        }
+        if (start > 0)
+            ++result;
+        return result;
+    }
+    bool binarySearch(vector<int>& G, int target)
+    {
+        int i, mid, start = 0, end = G.size() - 1;
+        while(start <= end)
+        {
+            mid = (start + end) >> 1;
+            if (target == G[mid])
+                return true;
+            else if (target < G[mid])
+                end = mid - 1;
+            else
+                start = mid + 1;
+        }
+        return false;
+    }
+};

@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int arrayNesting(vector<int>& nums) {
+        int i, result = 0, temp;
+        for (i = 0; i < nums.size(); ++i)
+        {
+            if (nums[i] >= 0)
+            {
+                temp = trace(nums, i, i);
+                if (result < temp)
+                    result = temp;
+            }
+        }
+        return result;
+    }
+    
+    int trace(vector<int>& nums, int original, int index)
+    {
+        if (nums[index] < 0)
+            return 0;
+        nums[index] = -nums[index];
+        if (-nums[index] == original)
+            return 1;
+        else
+            return 1 + trace(nums, original, -nums[index]);
+    }
+};

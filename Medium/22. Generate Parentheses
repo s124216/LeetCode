@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> result;
+        DP(n - 1, n, "(", result);
+        return result;
+    }
+    
+    void DP(int left, int right, string current, vector<string>& result)
+    {
+        int i;
+        if (left == 0)
+        {
+            for (i = 0; i < right; ++i)
+                current += ')';
+            result.push_back(current);
+        }
+        else
+        {
+            current += '(';
+            DP(left - 1, right, current, result);
+            if (left < right)
+            {
+                current[current.size() - 1] = ')';
+                DP(left, right - 1, current, result);
+            }
+        }
+    }
+};

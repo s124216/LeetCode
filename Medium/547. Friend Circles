@@ -1,0 +1,58 @@
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& M) {
+        return trace(M, M.size());
+    }
+    
+    int trace(vector<vector<int>>& M, int n)
+    {
+        int i, index, result = 0;
+        bool bflag, *students = new bool[n];
+        queue<int> q;
+        students[0] = true;
+        for (i = 1; i < n; ++i)
+            students[i] = false;
+        for (i = 1; i < n; ++i)
+        {
+            if (M[0][i] == 1)
+            {
+                q.push(i);
+                students[i] = true;
+            }
+        }
+        while (true)
+        {
+            if (!q.empty())
+            {
+                index = q.front();
+                q.pop();
+                for (i = 0; i < n; ++i)
+                {
+                    if (M[index][i] == 1 && !students[i] && i != index)
+                    {
+                        students[i] = true;
+                        q.push(i);
+                    }
+                }
+            }
+            else
+            {
+                result++;
+                for (i = 0, bflag = true; i < n; ++i)
+                {
+                    if(!students[i])
+                    {
+                        students[i] = true;
+                        q.push(i);
+                        bflag = false;
+                        break;
+                    }
+                }
+                if (bflag)
+                    break;
+            }
+        }
+        return result;
+    }
+};

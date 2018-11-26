@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> constructArray(int n, int k) {
+        int i = 1, j;
+        vector<int> result;
+        if (k <= 2)
+        {
+            if (k == 2)
+                result.push_back(n--);
+            for (; i <= n; ++i)
+                result.push_back(i);
+        }
+        else if (k == 3)
+        {
+            result.push_back(i++);
+            --k;
+        }
+        while (i <= n)
+        {
+            if (k == 1)
+            {
+                if (result.back() != n + 1)
+                    for (; n >= i; --n)
+                        result.push_back(n);
+                else
+                    for (; i <= n; ++i)
+                        result.push_back(i);
+                break;
+            }
+            else if (k % 2 == 0)
+                result.push_back(n--);
+            else
+                result.push_back(i++);
+            --k;
+        }
+        return result;
+    }
+};

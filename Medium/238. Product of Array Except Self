@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int i, StartBegin, StartEnd, length;
+        length = nums.size();
+        vector<int> result(length, 1);
+        for (i = 0, StartBegin = StartEnd = 1; i < length; ++i)
+        {
+            result[i] *= StartBegin;
+            StartBegin *= nums[i];
+            result[length - i - 1] *= StartEnd;
+            StartEnd *= nums[length - i - 1];
+        }
+        return result;
+    }
+};

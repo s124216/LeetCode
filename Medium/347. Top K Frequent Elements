@@ -1,0 +1,62 @@
+bool compare(int a, int b)
+{return a<b;}
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        int i, j, currentDigit, currentCount;
+        pair<int, int> input;
+        vector<int> result;
+        vector <pair<int, int>> count;
+        sort(nums.begin(), nums.end(), compare);
+        currentCount = 0;
+        currentDigit = nums[0];
+        if (nums.size() == 1)
+        {
+            input.first = 1;
+            input.second = nums[0];
+        }
+        else
+            input.first = input.second = 0;
+        for (i = 0; i < k; ++i)
+            count.push_back(input);
+        for (i = 0; i < nums.size(); ++i)
+        {
+            if(currentDigit == nums[i])
+                ++currentCount;
+            else
+            {
+                for (j = 0; j < k; ++j)
+                {
+                    if (currentCount > count[j].first)
+                    {
+                        count.pop_back();
+                        input.first = currentCount;
+                        input.second = currentDigit;
+                        count.insert(count.begin() + j, input);
+                        break;
+                    }
+                }
+                currentCount = 1;
+                currentDigit = nums[i];
+            }
+        }
+        if (nums[i - 1] == currentDigit)
+        {
+            for (j = 0; j < k; ++j)
+            {
+                if (currentCount > count[j].first)
+                {
+                    count.pop_back();
+                    input.first = currentCount;
+                    input.second = currentDigit;
+                    count.insert(count.begin() + j, input);
+                    break;
+                }
+            }
+        }
+        for (j = 0; j < k; ++j)
+            result.push_back(count[j].second);
+        return result;
+    }
+};
