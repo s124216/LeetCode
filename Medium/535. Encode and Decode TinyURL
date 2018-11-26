@@ -1,42 +1,40 @@
-
-/** Encodes a URL to a shortened URL. */
-//const chars[] = {"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"};
-const int base = 62;
-//const chars[] baseUrl = {"http://tinyurl.com/"};
-const int baseUrlSize = 19;
-char* encode(char* longUrl) {
-    int i, j, CountURL = 0;
-    char temp;
-    char *output = malloc(1024 * sizeof(char));
-    for (i = 8; i< strlen(longUrl); i++)
-        CountURL += *(longUrl + i);
-    while(1)
-    {
-        if(CountURL >= 62)
-            *(output + i) = CountURL % 62;
-        else
+class Solution {
+public:    
+    Solution() {
+        int i;
+        for (i = 0; i < chars.size(); ++i)
+            charToValueMap[chars[i]] = i;
+    }
+    // Encodes a URL to a shortened URL.
+    string encode(string longUrl) {
+        int id = urls.size() + 1;
+        urls[id] = longUrl;
+        vector<char> digits;
+        while (id != 0)
         {
-            *(output + i) = CountURL;
-            break;
+            digits.emplace_back(chars[id % base]);
+            id /= base;
         }
-        i++;
+        return baseUrl + string(digits.begin(), digits.end());
     }
-    *(output + i + 1) = '\0';
-    CountURL = i << 1;
-    for(j = 0; j < CountURL; j++, i--)
-    {
-        temp = *(output + j);
-        *(output + j) = *(output + i);
-        *(output + i) = temp;
+    // Decodes a shortened URL to its original URL.
+    string decode(string shortUrl) {
+        int i, id = 0, idStringSize;
+        string idString;
+        idString = shortUrl.substr(baseUrlSize, shortUrl.size() - baseUrlSize);
+        idStringSize = idString.size();
+        for (i = 0; i < idStringSize; ++i)
+            id += charToValueMap[idString[i]] * pow(base, idStringSize - i - 1);
+        return urls[id];
     }
-    return output;
-}
-
-/** Decodes a shortened URL to its original URL. */
-char* decode(char* shortUrl) {
-    
-}
-
-// Your functions will be called as such:
-// char* s = encode(s);
-// decode(s);
+private:
+    const string chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const int base = chars.size();
+    const string baseUrl = "http://tinyurl.com/";
+    const int baseUrlSize = baseUrl.size();
+    unordered_map<char, int> charToValueMap;
+    unordered_map<int, string> urls;
+};
+// Your Solution object will be instantiated and called as such:
+// Solution solution;
+// solution.decode(solution.encode(url));
